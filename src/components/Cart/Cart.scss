@@ -82,7 +82,7 @@
     }
 
     .cart-content__product-info {
-      color: #fff;
+      color: #fff !important;
       width: 100%;
 
       h3 {
@@ -105,7 +105,7 @@
             margin: 0;
           }
           button {
-            background: #0098d3;
+            background-color: #0098d3;
             border-color: #0098d3;
             color: #fff;
             border-radius: 5px;
@@ -133,8 +133,6 @@
       color: #fff;
 
       p {
-        &:first-of-type {
-        }
         &:last-of-type {
           font-weight: bold;
           font-size: 20px;

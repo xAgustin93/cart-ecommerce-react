@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { BASE_PATH, STORAGE_PRODUCTS_CART } from "../../utils/constants";
 import { ReactComponent as CartEmpty } from "../../assets/svg/cart-empty.svg";
+import { ReactComponent as CartFull } from "../../assets/svg/cart-full.svg";
 import { ReactComponent as Close } from "../../assets/svg/close.svg";
 import { ReactComponent as Garbage } from "../../assets/svg/garbage.svg";
+import { STORAGE_PRODUCTS_CART, BASE_PATH } from "../../utils/constants";
 import {
   removeArrayDuplicates,
   countDuplicatesItemArray,
@@ -13,8 +14,8 @@ import {
 import "./Cart.scss";
 
 export default function Cart(props) {
-  const { products, productsCart, getProductsCart } = props;
-  const [cartOpen, setCartOpen] = useState(true);
+  const { productsCart, getProductsCart, products } = props;
+  const [cartOpen, setCartOpen] = useState(false);
   const widthCartContent = cartOpen ? 400 : 0;
   const [singelProductsCart, setSingelProductsCart] = useState([]);
   const [cartTotalPrice, setCartTotalPrice] = useState(0);
@@ -48,16 +49,23 @@ export default function Cart(props) {
         });
       });
     }
+
     setCartTotalPrice(totalPrice);
   }, [productsCart, products]);
 
-  const openMenu = () => {
+  const openCart = () => {
     setCartOpen(true);
     document.body.style.overflow = "hidden";
   };
-  const closeMenu = () => {
+
+  const closeCart = () => {
     setCartOpen(false);
     document.body.style.overflow = "scroll";
+  };
+
+  const emptyCart = () => {
+    localStorage.removeItem(STORAGE_PRODUCTS_CART);
+    getProductsCart();
   };
 
   const increaseQuantity = id => {
@@ -74,19 +82,17 @@ export default function Cart(props) {
     getProductsCart();
   };
 
-  const emptyCart = () => {
-    localStorage.removeItem(STORAGE_PRODUCTS_CART);
-    getProductsCart();
-  };
-
   return (
     <>
       <Button variant="link" className="cart">
-        <CartEmpty onClick={openMenu} />
+        {productsCart.length > 0 ? (
+          <CartFull onClick={openCart} />
+        ) : (
+          <CartEmpty onClick={openCart} />
+        )}
       </Button>
-
       <div className="cart-content" style={{ width: widthCartContent }}>
-        <CartContentHeader closeMenu={closeMenu} emptyCart={emptyCart} />
+        <CartContentHeader closeCart={closeCart} emptyCart={emptyCart} />
         <div className="cart-content__products">
           {singelProductsCart.map((idProductCart, index) => (
             <CartContentProducts
@@ -106,12 +112,12 @@ export default function Cart(props) {
 }
 
 function CartContentHeader(props) {
-  const { closeMenu, emptyCart } = props;
+  const { closeCart, emptyCart } = props;
 
   return (
     <div className="cart-content__header">
       <div>
-        <Close onClick={closeMenu} />
+        <Close onClick={closeCart} />
         <h2>Carrito</h2>
       </div>
 
@@ -156,14 +162,14 @@ function RenderProduct(props) {
 
   return (
     <div className="cart-content__product">
-      <img src={`${BASE_PATH}/${product.image}`} alt="Producto" />
+      <img src={`${BASE_PATH}/${product.image}`} alt={product.name} />
       <div className="cart-content__product-info">
         <div>
           <h3>{product.name.substr(0, 25)}...</h3>
           <p>{product.price.toFixed(2)} € / ud.</p>
         </div>
         <div>
-          <p>En carro: {quantity} ud.</p>
+          <p>En carri: {quantity} ud.</p>
           <div>
             <button onClick={() => increaseQuantity(product.id)}>+</button>
             <button onClick={() => decreaseQuantity(product.id)}>-</button>
@@ -180,7 +186,7 @@ function CartContentFooter(props) {
   return (
     <div className="cart-content__footer">
       <div>
-        <p>Total aproximado:</p>
+        <p>Total aproximado: </p>
         <p>{cartTotalPrice.toFixed(2)} €</p>
       </div>
       <Button>Tramitar pedido</Button>

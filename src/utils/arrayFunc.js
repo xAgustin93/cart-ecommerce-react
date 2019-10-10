@@ -1,7 +1,7 @@
 export const countDuplicatesItemArray = (value, array) => {
   let count = 0;
   array.forEach(arrayValue => {
-    if (value == arrayValue) {
+    if (arrayValue == value) {
       count++;
     }
   });
@@ -13,7 +13,7 @@ export const removeArrayDuplicates = array => {
 };
 
 export const removeItemArray = (array, item) => {
-  var index = array.indexOf(item);
+  const index = array.indexOf(item);
 
   if (index > -1) {
     array.splice(index, 1);

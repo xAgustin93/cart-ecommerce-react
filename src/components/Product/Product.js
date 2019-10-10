@@ -14,7 +14,7 @@ export default function Product(props) {
         <Card.Body>
           <Card.Title>{product.name}</Card.Title>
           <Card.Text>{product.extraInfo}</Card.Text>
-          <Card.Text>{product.price} € / Unidad</Card.Text>
+          <Card.Text>{product.price.toFixed(2)} € / Unidad</Card.Text>
           <Button onClick={() => addProductCart(product.id, product.name)}>
             Añadir al carrito
           </Button>

@@ -6,7 +6,7 @@ import { ReactComponent as Logo } from "../../assets/svg/logo.svg";
 import "./TopMenu.scss";
 
 export default function TopMenu(props) {
-  const { products, productsCart, getProductsCart } = props;
+  const { productsCart, getProductsCart, products } = props;
 
   return (
     <Navbar bg="dark" variant="dark" className="top-menu">
@@ -14,9 +14,9 @@ export default function TopMenu(props) {
         <BrandNav />
         {/* <MenuNav /> */}
         <Cart
-          products={products}
           productsCart={productsCart}
           getProductsCart={getProductsCart}
+          products={products}
         />
       </Container>
     </Navbar>
@@ -27,7 +27,7 @@ function BrandNav() {
   return (
     <Navbar.Brand>
       <Logo />
-      <div>La casa de los helados</div>
+      <h2>La casa de los helados</h2>
     </Navbar.Brand>
   );
 }
@@ -35,9 +35,9 @@ function BrandNav() {
 function MenuNav() {
   return (
     <Nav className="mr-auto">
-      <Nav.Link href="#snacks">Aperitivos</Nav.Link>
-      <Nav.Link href="#ice-cream">Helados</Nav.Link>
-      <Nav.Link href="#pets">Mascotas</Nav.Link>
+      <Nav.Link href="#">Aperitivos</Nav.Link>
+      <Nav.Link href="#">Helados</Nav.Link>
+      <Nav.Link href="#">Mascotas</Nav.Link>
     </Nav>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function useFetch(url, options) {
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ export default function useFetch(url, options) {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [options, url]);
 
   return { loading, result, error };
 }
